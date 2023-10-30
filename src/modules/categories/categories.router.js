@@ -6,6 +6,9 @@ const router=Router();
 
 
 router.get('/',categoriesController.getCategories)
+router.get('/active',categoriesController.getAciveCategory)
 router.post('/',fileUpload(fileValidation.image).single('image'),categoriesController.createCategories)
+router.get('/:id',categoriesController.getspecificCategory)
+router.put('/:id',fileUpload(fileValidation.image).single('image'),categoriesController.updateCategory)
 
 export default router;
