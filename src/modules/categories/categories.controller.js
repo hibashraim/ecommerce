@@ -4,7 +4,7 @@ import cloudinary from "../../services/cloudinary.js";
 import categoryModel from '../../../DB/model/category.model.js'
 
 export const getCategories= async(req,res)=>{
-    const categories=await categoryModel.find();
+    const categories=await categoryModel.find().populate('subcategory');
     return res.status(200).json({messages:"success",categories})
 }
 
@@ -18,7 +18,7 @@ export const createCategories= async(req,res)=>{
     const {secure_url,public_id} =await cloudinary.uploader.upload(req.file.path,{
         folder: `${process.env.APP_NAME}/category`
     });
-const cat=await categoryModel.create({name,slug:slugify(name),image:{secure_url,public_id}})
+const cat=await categoryModel.create({name,slug:slugify(name),image:{secure_url,public_id},createdBy:req.user._id,updateBy:req.user._id})
 return res.status(201).json({message:"success",cat})
 }
 // slug: مشان يحط - بدل الفراغ بين الكلمات
